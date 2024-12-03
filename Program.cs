@@ -1,16 +1,16 @@
 ﻿using System;
 
 namespace c_sharp_interface_1
-{//lab
+{//lab + hw
 
-    //ex-1
+    //lab ex-1
     interface IOutput
     {
         void Show();
         void Show(string info);
     }
 
-    //ex-2
+    //lab ex-2
     interface IMath {
         int Max();
         int Min();
@@ -18,7 +18,7 @@ namespace c_sharp_interface_1
         bool Search(int ValueToSearch);
     }
 
-    //ex-3
+    //lab ex-3
     interface ISort {
         void SortAsc();
         public void SortDesc()
@@ -30,7 +30,27 @@ namespace c_sharp_interface_1
 
     }
 
-    public class Array : IOutput, IMath, ISort
+    //hw ex-1
+    interface ICalc {
+        int Less(int valueToCompare);
+        int Greater(int valueToCompare);
+
+    }
+
+    //hw ex-2
+    interface IOutput2 {
+        void ShowEven();
+        void ShowOdd();
+    }
+
+    //hw ex-3
+    interface ICalc2
+    {
+        int CountDistinct();
+        int EqualToValue(int valueToCompare);
+    }
+
+    public class Array : IOutput, IMath, ISort, ICalc, IOutput2, ICalc2
     {
         private int[] elements;
 
@@ -39,7 +59,7 @@ namespace c_sharp_interface_1
             this.elements = elements;
         }
 
-        //ex-1
+        //lab ex-1
         public void Show()
         {
             foreach (var element in elements)
@@ -55,7 +75,7 @@ namespace c_sharp_interface_1
             Show();
         }
 
-        //ex-2
+        //lab ex-2
         public int Max()
         {
             int max = elements[0];
@@ -104,7 +124,7 @@ namespace c_sharp_interface_1
             return false;
         }
 
-        //ex-3
+        //lab ex-3
         public void SortAsc()
         {
             System.Array.Sort(elements);
@@ -127,6 +147,92 @@ namespace c_sharp_interface_1
             }
         }
 
+        //hw ex-1
+        public int Less(int valueToCompare)
+        {
+            int count = 0;
+            foreach (var element in elements)
+            {
+                if (element < valueToCompare)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+        public int Greater(int valueToCompare)
+        {
+            int count = 0;
+            foreach (var element in elements)
+            {
+                if (element > valueToCompare)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        //hw ex-2
+        public void ShowEven()
+        {
+            foreach (var element in elements)
+            {
+                if (element % 2 == 0)
+                {
+                    Console.Write(element + " ");
+                }
+            }
+            Console.WriteLine();
+        }
+        public void ShowOdd()
+        {
+            foreach (var element in elements)
+            {
+                if (element % 2 != 0)
+                {
+                    Console.Write(element + " ");
+                }
+            }
+            Console.WriteLine();
+        }
+
+        //hw ex-3
+        public int CountDistinct()
+        {
+            int count = 0;
+            for (int i = 0; i < elements.Length; i++)
+            {
+                bool isDistinct = true;
+                for (int j = 0; j < elements.Length; j++)
+                {
+                    if (elements[i] == elements[j] && i != j) 
+                    {
+                        isDistinct = false;
+                        break;
+                    }
+                }
+                if (isDistinct)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public int EqualToValue(int valueToCompare)
+        {
+            int count = 0;
+            foreach (var element in elements)
+            {
+                if (element == valueToCompare)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
     }
 
     internal class Program
@@ -143,18 +249,18 @@ namespace c_sharp_interface_1
 
             Array array = new Array(numbers);
 
-            //ex-1
+            //lab ex-1
             array.Show();
             array.Show("Array elements:");
 
 
-            //ex-2
+            //lab ex-2
             Console.WriteLine("Max: " + array.Max());
             Console.WriteLine("Min: " + array.Min());
             Console.WriteLine("Avg: " + array.Avg());
             Console.WriteLine("Search 3: " + array.Search(3));
 
-            //ex-3
+            //lab ex-3
             array.SortAsc();
             array.Show("Sorted Ascending:");
             array.SortDesc();
@@ -163,6 +269,20 @@ namespace c_sharp_interface_1
             array.Show("Sorted Ascending:");
             array.SortByParam(false);
             array.Show("Sorted Descending:");
+
+            //hw ex-1
+            Console.WriteLine("Less than 5: " + array.Less(5));
+            Console.WriteLine("Greater than 5: " + array.Greater(5));
+
+            //hw ex-2
+            Console.WriteLine("Even: ");
+            array.ShowEven();
+            Console.WriteLine("Odd: ");
+            array.ShowOdd();
+
+            //hw ex-3
+            Console.WriteLine("Distinct: " + array.CountDistinct());
+            Console.WriteLine("Equal to 5: " + array.EqualToValue(5));
         }
     }
 }
